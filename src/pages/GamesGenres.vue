@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Genre, GenreGame } from '@/typings/interfaces'
+import type { Genre, GamePreview } from '@/typings/interfaces'
 import { genresResponseDto } from '../mocks'
 
 const { results: genres } = genresResponseDto
 
 function getTopGamesLabel(genre: Genre) {
-  return genre.games.map((game: GenreGame) => game.name).join(', ')
+  return genre.games.map((game: GamePreview) => game.name).join(', ')
 }
 </script>
 

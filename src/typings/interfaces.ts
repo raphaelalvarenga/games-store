@@ -449,7 +449,7 @@ export interface GameDetailsResponseDto {
   description_raw: string
 }
 
-export interface GenreGame {
+export interface GamePreview {
   id: number
   slug: string
   name: string
@@ -462,7 +462,7 @@ export interface Genre {
   slug: string
   games_count: number
   image_background: string
-  games: GenreGame[]
+  games: GamePreview[]
 }
 
 export interface GenresResponseDto {
