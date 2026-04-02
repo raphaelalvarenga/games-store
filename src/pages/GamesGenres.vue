@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue'
 // import { genresResponseDto } from '../mocks'
 import SimpleCard from '@/components/SimpleCard.vue'
-import { getGenres } from '@/services/getGenres';
-import type { GenresResponseDto } from '@/typings/interfaces';
+import { getGenres } from '@/services/getGenres'
+import type { GenresResponseDto } from '@/typings/interfaces'
 
 // const { results: genres } = genresResponseDto
 const genresResponseDto = ref<GenresResponseDto>()
@@ -11,7 +11,6 @@ const genresResponseDto = ref<GenresResponseDto>()
 watchEffect(async () => {
   genresResponseDto.value = await getGenres()
 })
-
 </script>
 
 <template>

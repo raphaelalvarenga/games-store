@@ -1,5 +1,5 @@
-import { fetchApi } from "./fetchApi";
+import { fetchApi } from './fetchApi'
 
 export async function getPlatforms() {
-  return await fetchApi("platforms")
+  return await fetchApi('platforms')
 }

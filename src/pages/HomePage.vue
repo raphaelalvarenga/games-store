@@ -4,8 +4,6 @@ import { ref, watchEffect } from 'vue'
 // import { gamesResponseDto } from '../mocks'
 import type { GamesResponseDTO, Game } from '../typings/interfaces'
 import { getGames } from '@/services/getGames'
-const apiUrl = import.meta.env.VITE_API_URL;
-console.log(apiUrl);
 // const { results: games } = gamesResponseDto
 const gamesResponseDto = ref<GamesResponseDTO>()
 

@@ -1,5 +1,5 @@
-import { fetchApi } from "./fetchApi";
+import { fetchApi } from './fetchApi'
 
 export async function getGenres() {
-  return await fetchApi("genres")
+  return await fetchApi('genres')
 }

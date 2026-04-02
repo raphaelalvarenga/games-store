@@ -1,31 +1,27 @@
 <script setup lang="ts">
-import type { Genre, Platform } from '@/typings/interfaces';
+import type { Genre, Platform } from '@/typings/interfaces'
 
 interface SimpleCardProps {
   item: Platform | Genre
 }
 
-  const {item} = defineProps<SimpleCardProps>()
-    const {games,games_count,id,image_background,name,} = item
-
+const { item } = defineProps<SimpleCardProps>()
+const { games, games_count, id, image_background, name } = item
 </script>
 
 <template>
-      <RouterLink
-        class="card"
-        :to="`/platforms/${id}`"
-      >
-        <div class="image-container">
-          <img :src="image_background" alt="card-image" />
-        </div>
+  <RouterLink class="card" :to="`/platforms/${id}`">
+    <div class="image-container">
+      <img :src="image_background" alt="card-image" />
+    </div>
 
-        <div class="card-content">
-          <h2>{{ name }}</h2>
-          <div class="games-count">{{ games_count }} games</div>
+    <div class="card-content">
+      <h2>{{ name }}</h2>
+      <div class="games-count">{{ games_count }} games</div>
 
-          <div class="top-games">{{ games.map((game) => game.name).join(', ') }}</div>
-        </div>
-      </RouterLink>
+      <div class="top-games">{{ games.map((game) => game.name).join(', ') }}</div>
+    </div>
+  </RouterLink>
 </template>
 
 <style scoped>
