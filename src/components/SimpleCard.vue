@@ -12,14 +12,14 @@ interface SimpleCardProps {
 
 <template>
       <RouterLink
-        class="platform-card"
+        class="card"
         :to="`/platforms/${id}`"
       >
-        <div class="platform-image">
-          <img :src="image_background" alt="platform-image" />
+        <div class="image-container">
+          <img :src="image_background" alt="card-image" />
         </div>
 
-        <div class="platform-content">
+        <div class="card-content">
           <h2>{{ name }}</h2>
           <div class="games-count">{{ games_count }} games</div>
 
@@ -29,25 +29,7 @@ interface SimpleCardProps {
 </template>
 
 <style scoped>
-.platforms-page {
-  padding: 24px;
-  color: #e5e7eb;
-  font-family: 'Inter', sans-serif;
-}
-
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.platforms-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
-}
-
-.platform-card {
+.card {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
@@ -58,12 +40,12 @@ interface SimpleCardProps {
     box-shadow 0.25s ease;
 }
 
-.platform-card:hover {
+.card:hover {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
-.platform-image img {
+.image-container img {
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -71,11 +53,11 @@ interface SimpleCardProps {
   transition: transform 0.4s ease;
 }
 
-.platform-card:hover img {
+.card:hover img {
   transform: scale(1.08);
 }
 
-.platform-content {
+.card-content {
   position: absolute;
   inset: 0;
   padding: 16px;
@@ -86,7 +68,7 @@ interface SimpleCardProps {
   color: #e5e7eb;
 }
 
-.platform-card::after {
+.card::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -99,7 +81,7 @@ interface SimpleCardProps {
   z-index: 1;
 }
 
-.platform-content h2 {
+.card-content h2 {
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 4px;
@@ -122,7 +104,7 @@ interface SimpleCardProps {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 
-  .platform-image img {
+  .image-container img {
     height: 140px;
   }
 }
