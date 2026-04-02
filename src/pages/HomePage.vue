@@ -2,33 +2,44 @@
 import { onMounted, ref } from 'vue'
 // import { gamesResponseDto } from '../mocks'
 // import { gamesResponseDto } from '../mocks'
-import { type Game, type GamesResponseDTO } from '../typings/interfaces'
+import { type Game } from '../typings/interfaces'
 import { getGames } from '@/services/getGames'
 // const { results: games } = gamesResponseDto
-const gamesResponseDto = ref<GamesResponseDTO>()
+const nextPage = ref<number | null>(1)
 const games = ref<Game[]>([])
-const isFetchingMoreGames = ref<boolean>(false)
+const isFetchingMoreGames = ref(false)
 
-async function fetchGames(nextPage: number) {
-  isFetchingMoreGames.value = true
-  gamesResponseDto.value = await getGames(nextPage)
+async function fetchGames() {
+  try {
+    if (isFetchingMoreGames.value || !nextPage.value) {
+      return
+    }
 
-  if (gamesResponseDto.value?.results) {
-    gamesResponseDto.value.results
-    games.value = [...games.value, ...gamesResponseDto.value.results]
+    isFetchingMoreGames.value = true
+    const gamesResponseDto = await getGames(nextPage.value)
+
+    if (gamesResponseDto.next) {
+      const url = new URL(gamesResponseDto.next)
+      const page = url.searchParams.get('page')
+      nextPage.value = page ? parseInt(page) : null
+    } else {
+      nextPage.value = null
+    }
+
+    if (gamesResponseDto.results) {
+      games.value.push(...gamesResponseDto.results)
+    }
+  } catch (error) {
+    console.error('Failed to fetch games:', error)
+  } finally {
     isFetchingMoreGames.value = false
   }
 }
 
-onMounted(async () => {
-  fetchGames(1)
-})
+onMounted(fetchGames)
 
 async function loadMoreItems() {
-  if (gamesResponseDto.value?.next) {
-    const nextPage = gamesResponseDto.value.next.split('page=')[1] as string
-    await fetchGames(parseInt(nextPage))
-  }
+  await fetchGames()
 }
 </script>
 
@@ -57,11 +68,13 @@ async function loadMoreItems() {
   </div>
 
   <div class="load-more-container">
-    <button v-if="!isFetchingMoreGames" class="load-more-btn" @click="loadMoreItems">
+    <button v-if="!isFetchingMoreGames && nextPage" class="load-more-btn" @click="loadMoreItems">
       Load more games
     </button>
 
-    <span v-else class="load-more-spn">Loading...</span>
+    <span v-else-if="isFetchingMoreGames" class="load-more-spn">Loading...</span>
+
+    <span v-else>No more data to retrieve</span>
   </div>
 </template>
 
