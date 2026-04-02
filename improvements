@@ -2,7 +2,6 @@ infinite scroll or show more items in all lists
 some pages don't fill all monitor
 try some form
 use debounce in search inputs
-implement fetch
 use some global stuff like page theme and using mocks instead of calling the api
 add more routes (check api docs)
 create some statitics or dashboard
