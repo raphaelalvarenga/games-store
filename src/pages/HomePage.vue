@@ -1,26 +1,41 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { onMounted, ref } from 'vue'
 // import { gamesResponseDto } from '../mocks'
 // import { gamesResponseDto } from '../mocks'
-import type { GamesResponseDTO, Game } from '../typings/interfaces'
+import { type Game, type GamesResponseDTO } from '../typings/interfaces'
 import { getGames } from '@/services/getGames'
 // const { results: games } = gamesResponseDto
 const gamesResponseDto = ref<GamesResponseDTO>()
+const games = ref<Game[]>([])
+const isFetchingMoreGames = ref<boolean>(false)
 
-function getGenresLabel(game: Game) {
-  const genresNames = game.genres.map((genre) => genre.name)
-  return genresNames.join('/')
+async function fetchGames(nextPage: number) {
+  isFetchingMoreGames.value = true
+  gamesResponseDto.value = await getGames(nextPage)
+
+  if (gamesResponseDto.value?.results) {
+    gamesResponseDto.value.results
+    games.value = [...games.value, ...gamesResponseDto.value.results]
+    isFetchingMoreGames.value = false
+  }
 }
 
-watchEffect(async () => {
-  gamesResponseDto.value = await getGames()
+onMounted(async () => {
+  fetchGames(1)
 })
+
+async function loadMoreItems() {
+  if (gamesResponseDto.value?.next) {
+    const nextPage = gamesResponseDto.value.next.split('page=')[1] as string
+    await fetchGames(parseInt(nextPage))
+  }
+}
 </script>
 
 <template>
   <div class="game-grid-items">
     <RouterLink
-      v-for="game in gamesResponseDto?.results"
+      v-for="game in games"
       :key="game.id"
       class="game-grid-item"
       :to="`/game-details/${game.id}`"
@@ -32,13 +47,21 @@ watchEffect(async () => {
             {{ game.name }}
           </div>
           <div>
-            {{ getGenresLabel(game) }}
+            {{ game.genres.map((genre) => genre.name).join('/') }}
           </div>
 
           <div>Rating: {{ game.rating }}</div>
         </div>
       </div>
     </RouterLink>
+  </div>
+
+  <div class="load-more-container">
+    <button v-if="!isFetchingMoreGames" class="load-more-btn" @click="loadMoreItems">
+      Load more games
+    </button>
+
+    <span v-else class="load-more-spn">Loading...</span>
   </div>
 </template>
 
@@ -123,6 +146,39 @@ watchEffect(async () => {
   font-size: 12px;
   color: #facc15;
   font-weight: 600;
+}
+
+.load-more-container {
+  grid-column: 1 / -1; /* makes it span full grid width */
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.load-more-btn {
+  background: #1f2937;
+  color: #e5e7eb;
+  border: 1px solid #374151;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.load-more-btn:hover {
+  background: #374151;
+  border-color: #4b5563;
+  transform: translateY(-2px);
+}
+
+.load-more-btn:active {
+  transform: translateY(0);
+}
+
+.load-more-spn {
+  color: #e5e7eb;
 }
 
 @media (max-width: 768px) {

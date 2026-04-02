@@ -17,7 +17,7 @@ const { games, games_count, id, image_background, name } = item
 
     <div class="card-content">
       <h2>{{ name }}</h2>
-      <div class="games-count">{{ games_count }} games</div>
+      <div class="games-count">{{ games_count.toLocaleString() }} games</div>
 
       <div class="top-games">{{ games.map((game) => game.name).join(', ') }}</div>
     </div>
