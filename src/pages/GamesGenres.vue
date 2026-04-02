@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { genresResponseDto } from '../mocks'
+import { ref, watchEffect } from 'vue';
+// import { genresResponseDto } from '../mocks'
 import SimpleCard from '@/components/SimpleCard.vue'
+import { getGenres } from '@/services/getGenres';
+import type { GenresResponseDto } from '@/typings/interfaces';
 
-const { results: genres } = genresResponseDto
+// const { results: genres } = genresResponseDto
+const genresResponseDto = ref<GenresResponseDto>()
+
+watchEffect(async () => {
+  genresResponseDto.value = await getGenres()
+})
 
 </script>
 
@@ -11,7 +19,7 @@ const { results: genres } = genresResponseDto
     <h1 class="page-title">Browse Genres</h1>
 
     <div class="genres-grid">
-      <SimpleCard v-for="genre in genres" :key="genre.id" :item="genre" />
+      <SimpleCard v-for="genre in genresResponseDto?.results" :key="genre.id" :item="genre" />
     </div>
   </div>
 </template>

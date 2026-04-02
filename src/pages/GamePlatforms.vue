@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { platformsResponseDto } from '../mocks'
+import { ref, watchEffect } from 'vue';
+// import { platformsResponseDto } from '../mocks'
 import SimpleCard from '@/components/SimpleCard.vue';
+import type { PlatformsResponseDto } from '@/typings/interfaces';
+import { getPlatforms } from '@/services/getPlatforms';
 
-const { results: platforms } = platformsResponseDto
+// const { results: platforms } = platformsResponseDto
+const platformsResponseDto = ref<PlatformsResponseDto>()
+
+watchEffect(async () => {
+  platformsResponseDto.value = await getPlatforms();
+})
 </script>
 
 <template>
@@ -10,7 +18,7 @@ const { results: platforms } = platformsResponseDto
     <h1 class="page-title">Browse Platforms</h1>
 
     <div class="platforms-grid">
-      <SimpleCard v-for="platform in platforms" :key="platform.id" :item="platform" />
+      <SimpleCard v-for="platform in platformsResponseDto?.results" :key="platform.id" :item="platform" />
     </div>
   </div>
 </template>
