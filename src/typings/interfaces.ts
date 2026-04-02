@@ -448,3 +448,27 @@ export interface GameDetailsResponseDto {
   clip: unknown | null
   description_raw: string
 }
+
+export interface GenreGame {
+  id: number
+  slug: string
+  name: string
+  added: number
+}
+
+export interface Genre {
+  id: number
+  name: string
+  slug: string
+  games_count: number
+  image_background: string
+  games: GenreGame[]
+}
+
+export interface GenresResponseDto {
+  count: number
+  next: string | null
+  previous: string | null
+  results: Genre[]
+}
+
