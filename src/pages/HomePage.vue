@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { gamesResponseDto } from '../mocks'
-import type { Game } from '../typings/interfaces'
-
-const { results: games } = gamesResponseDto
+import { ref, watchEffect } from 'vue'
+// import { gamesResponseDto } from '../mocks'
+// import { gamesResponseDto } from '../mocks'
+import type { GamesResponseDTO, Game } from '../typings/interfaces'
+import { getGames } from '@/services/getGames'
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);
+// const { results: games } = gamesResponseDto
+const gamesResponseDto = ref<GamesResponseDTO>()
 
 function getGenresLabel(game: Game) {
   const genresNames = game.genres.map((genre) => genre.name)
   return genresNames.join('/')
 }
+
+watchEffect(async () => {
+  gamesResponseDto.value = await getGames()
+})
 </script>
 
 <template>
   <div class="game-grid-items">
     <RouterLink
-      v-for="game in games"
+      v-for="game in gamesResponseDto?.results"
       :key="game.id"
       class="game-grid-item"
       :to="`/game-details/${game.id}`"
