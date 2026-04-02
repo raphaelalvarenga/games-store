@@ -1,18 +1,31 @@
 <script setup lang="ts">
-import { platformsResponseDto } from '../mocks'
-import SimpleCard from '@/components/SimpleCard.vue';
+import type { Platform } from '@/typings/interfaces';
 
-const { results: platforms } = platformsResponseDto
+interface SimpleCardProps {
+  item: Platform
+}
+
+  const {item} = defineProps<SimpleCardProps>()
+    const {games,games_count,id,image_background,name,} = item
+
 </script>
 
 <template>
-  <div class="platforms-page">
-    <h1 class="page-title">Browse Platforms</h1>
+      <RouterLink
+        class="platform-card"
+        :to="`/platforms/${id}`"
+      >
+        <div class="platform-image">
+          <img :src="image_background" alt="platform-image" />
+        </div>
 
-    <div class="platforms-grid">
-      <SimpleCard v-for="platform in platforms" :key="platform.id" :item="platform" />
-    </div>
-  </div>
+        <div class="platform-content">
+          <h2>{{ name }}</h2>
+          <div class="games-count">{{ games_count }} games</div>
+
+          <div class="top-games">{{ games.map((game) => game.name).join(', ') }}</div>
+        </div>
+      </RouterLink>
 </template>
 
 <style scoped>
