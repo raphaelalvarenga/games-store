@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Platform } from '@/typings/interfaces';
+import type { Genre, Platform } from '@/typings/interfaces';
 
 interface SimpleCardProps {
-  item: Platform
+  item: Platform | Genre
 }
 
   const {item} = defineProps<SimpleCardProps>()
