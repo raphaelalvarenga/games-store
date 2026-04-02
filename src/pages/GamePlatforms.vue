@@ -9,10 +9,11 @@ const { results: platforms } = platformsResponseDto
     <h1 class="page-title">Browse Platforms</h1>
 
     <div class="platforms-grid">
-      <div
+      <RouterLink
         v-for="{ image_background, games, games_count, id, name } in platforms"
         :key="id"
         class="platform-card"
+        :to="`/platforms/${id}`"
       >
         <div class="platform-image">
           <img :src="image_background" alt="platform-image" />
@@ -24,7 +25,7 @@ const { results: platforms } = platformsResponseDto
 
           <div class="top-games">{{ games.map((game) => game.name).join(', ') }}</div>
         </div>
-      </div>
+      </RouterLink>
     </div>
   </div>
 </template>
