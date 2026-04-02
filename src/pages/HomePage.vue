@@ -12,7 +12,12 @@ function getGenresLabel(game: Game) {
 
 <template>
   <div class="game-grid-items">
-    <RouterLink v-for="game in games" :key="game.id" class="game-grid-item" to="/game-details">
+    <RouterLink
+      v-for="game in games"
+      :key="game.id"
+      class="game-grid-item"
+      :to="`/game-details/${game.id}`"
+    >
       <div>
         <div><img :src="game.background_image" alt="imagem-do-game" /></div>
         <div>

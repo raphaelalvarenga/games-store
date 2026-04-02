@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/', component: HomePage },
-  { path: '/game-details', component: GameDetails },
+  { path: '/game-details/:id', component: GameDetails },
 ]
 
 const router = createRouter({
