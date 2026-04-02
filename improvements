@@ -1,0 +1,17 @@
+reuse CSS
+infinite scroll or show more items in all lists
+some pages don't fill all monitor
+try some form
+use debounce in search inputs
+implement fetch
+use some global stuff like page theme
+add more routes (check api docs)
+create some statitics or dashboard
+force some scenario to use reactivity
+force some scenario to use component lifecycle
+conditions
+event handling
+form
+watchers
+create components and pass props
+ssr
