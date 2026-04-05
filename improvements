@@ -1,11 +1,9 @@
 some pages don't fill all monitor
 try some form
-use debounce in search inputs
 use some global stuff like page theme and using mocks instead of calling the api
 add more routes (check api docs)
 create some statitics or dashboard
 force some scenario to use reactivity
 form
-watchers
 ssr
 add loader in store and disable search input and in case app is loading

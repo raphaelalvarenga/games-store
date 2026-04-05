@@ -6,10 +6,7 @@ export const useGamesStore = defineStore('games', {
     rawItems: [],
   }),
   getters: {
-    games: (state) => {
-      console.log('Executed getter')
-      return state.rawItems
-    },
+    games: (state) => state.rawItems,
   },
   actions: {
     addGames(games: Game[]) {

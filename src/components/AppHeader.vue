@@ -2,9 +2,9 @@
 import { searchGames } from '@/services/searchGames'
 import { ref, watch } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
-import { useGamesStore } from '@/stores'
-// import { useRouter } from 'vue-router'
+import { useGamesStore, useBaseStore } from '@/stores'
 
+const base = useBaseStore()
 const games = useGamesStore()
 const searchInput = ref('')
 
@@ -31,7 +31,7 @@ watch(searchInput, async () => {
       </nav>
 
       <div class="search-box">
-        <input v-model="searchInput" placeholder="Search games..." />
+        <input v-model="searchInput" placeholder="Search games..." :disabled="base.isLoading" />
       </div>
     </div>
   </header>
