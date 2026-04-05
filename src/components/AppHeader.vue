@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { searchGames } from '@/services/searchGames'
+import { ref, watch } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+// import { useRouter } from 'vue-router'
 
-const search = ref('')
-const router = useRouter()
+const searchInput = ref('')
 
-function handleSearch() {
-  if (!search.value.trim()) return
-  router.push({ path: '/', query: { search: search.value } })
-}
+const searchGamesInputDebounce = useDebounceFn(searchGames, 800)
+
+watch(searchInput, searchGamesInputDebounce)
 </script>
 
 <template>
   <header class="navbar">
     <div class="navbar-container">
-      <!-- Logo -->
       <RouterLink to="/" class="logo"> 🎮 GameStore </RouterLink>
 
-      <!-- Navigation -->
       <nav class="nav-links">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/genres">Genres</RouterLink>
         <RouterLink to="/platforms">Platforms</RouterLink>
       </nav>
 
-      <!-- Search -->
       <div class="search-box">
-        <input v-model="search" @keyup.enter="handleSearch" placeholder="Search games..." />
+        <input v-model="searchInput" placeholder="Search games..." />
       </div>
     </div>
   </header>
