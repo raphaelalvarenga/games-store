@@ -2,13 +2,21 @@
 import { searchGames } from '@/services/searchGames'
 import { ref, watch } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
+import { useGamesStore } from '@/stores'
 // import { useRouter } from 'vue-router'
 
+const games = useGamesStore()
 const searchInput = ref('')
 
 const searchGamesInputDebounce = useDebounceFn(searchGames, 800)
 
-watch(searchInput, searchGamesInputDebounce)
+watch(searchInput, async () => {
+  const searchResponse = await searchGamesInputDebounce(searchInput.value)
+
+  if (searchResponse && searchResponse.results) {
+    games.addGames(searchResponse.results)
+  }
+})
 </script>
 
 <template>

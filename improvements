@@ -8,3 +8,4 @@ force some scenario to use reactivity
 form
 watchers
 ssr
+add loader in store and disable search input and in case app is loading

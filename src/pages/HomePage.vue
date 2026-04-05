@@ -2,11 +2,11 @@
 import { onMounted, ref } from 'vue'
 // import { gamesResponseDto } from '../mocks'
 // import { gamesResponseDto } from '../mocks'
-import { type Game } from '../typings/interfaces'
 import { getGames } from '@/services/getGames'
+import { useGamesStore } from '../stores'
 // const { results: games } = gamesResponseDto
 const nextPage = ref<number | null>(1)
-const games = ref<Game[]>([])
+const games = useGamesStore()
 const isFetchingMoreGames = ref(false)
 
 async function fetchGames() {
@@ -27,7 +27,7 @@ async function fetchGames() {
     }
 
     if (gamesResponseDto.results) {
-      games.value.push(...gamesResponseDto.results)
+      games.addGames(gamesResponseDto.results)
     }
   } catch (error) {
     console.error('Failed to fetch games:', error)
@@ -46,7 +46,7 @@ async function loadMoreItems() {
 <template>
   <div class="game-grid-items">
     <RouterLink
-      v-for="game in games"
+      v-for="game in games.games"
       :key="game.id"
       class="game-grid-item"
       :to="`/game-details/${game.id}`"
