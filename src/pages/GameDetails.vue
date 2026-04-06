@@ -1,61 +1,60 @@
 <script setup lang="ts">
-import { gameResponseDto } from '../mocks'
+import { onMounted, ref } from 'vue'
+import { getGameDetail } from '@/services/getGameDetail'
+import { useRoute } from 'vue-router'
+import { type GameDetailsResponseDto } from '@/typings/interfaces'
 
-const {
-  name,
-  background_image,
-  background_image_additional,
-  metacritic,
-  released,
-  website,
-  rating,
-  ratings,
-  platforms,
-  stores,
-  developers,
-  genres,
-  tags,
-  publishers,
-  description,
-} = gameResponseDto
+const route = useRoute()
+const gameResponseDto = ref({} as GameDetailsResponseDto)
 
 function getPlatformNames() {
-  return platforms.map((p) => p.platform.name).join(', ')
+  return gameResponseDto.value.platforms?.map((p) => p.platform.name).join(', ')
 }
 
 function getStoreNames() {
-  return stores.map((s) => s.store.name).join(', ')
+  return gameResponseDto.value.stores?.map((s) => s.store.name).join(', ')
 }
 
 function getNames(list: { name: string }[]) {
-  return list.map((item) => item.name).join(', ')
+  return list?.map((item) => item.name).join(', ')
 }
+
+async function fetchGameDetail() {
+  const gameDetail = await getGameDetail(route.params.id as string)
+  gameResponseDto.value = gameDetail
+}
+
+onMounted(() => {
+  fetchGameDetail()
+})
 </script>
 
 <template>
   <div class="game-page">
     <div class="hero">
-      <img :src="background_image" class="hero__bg" />
+      <img :src="gameResponseDto.background_image" class="hero__bg" />
       <div class="hero__overlay" />
 
       <div class="hero__content">
-        <h1>{{ name }}</h1>
+        <h1>{{ gameResponseDto.name }}</h1>
 
         <div class="hero__meta">
-          <span class="rating">⭐ {{ rating }}</span>
-          <span v-if="metacritic" class="metacritic">{{ metacritic }}</span>
-          <span>{{ released }}</span>
+          <span class="rating">⭐ {{ gameResponseDto.rating }}</span>
+          <span v-if="gameResponseDto.metacritic" class="metacritic">{{
+            gameResponseDto.metacritic
+          }}</span>
+          <span>{{ gameResponseDto.released }}</span>
         </div>
 
-        <a :href="website" target="_blank" class="btn">Visit Website</a>
+        <a :href="gameResponseDto.website" target="_blank" class="btn">Visit Website</a>
       </div>
     </div>
 
     <div class="content">
       <div class="content__main">
-        <img :src="background_image_additional" class="secondary-image" />
+        <img :src="gameResponseDto.background_image_additional" class="secondary-image" />
 
-        <div class="description" v-html="description"></div>
+        <div class="description" v-html="gameResponseDto.description"></div>
       </div>
 
       <div class="sidebar">
@@ -71,23 +70,23 @@ function getNames(list: { name: string }[]) {
 
         <div class="card">
           <h3>Developers</h3>
-          <p>{{ getNames(developers) }}</p>
+          <p>{{ getNames(gameResponseDto.developers) }}</p>
         </div>
 
         <div class="card">
           <h3>Publishers</h3>
-          <p>{{ getNames(publishers) }}</p>
+          <p>{{ getNames(gameResponseDto.publishers) }}</p>
         </div>
 
         <div class="card">
           <h3>Genres</h3>
-          <p>{{ getNames(genres) }}</p>
+          <p>{{ getNames(gameResponseDto.genres) }}</p>
         </div>
 
         <div class="card">
           <h3>Tags</h3>
           <p class="tags">
-            <span v-for="tag in tags" :key="tag.id">{{ tag.name }}</span>
+            <span v-for="tag in gameResponseDto.tags" :key="tag.id">{{ tag.name }}</span>
           </p>
         </div>
       </div>
@@ -96,7 +95,11 @@ function getNames(list: { name: string }[]) {
         <h3>Player Ratings</h3>
 
         <div class="ratings-list">
-          <div v-for="ratingItem in ratings" :key="ratingItem.id" class="rating-row">
+          <div
+            v-for="ratingItem in gameResponseDto.ratings"
+            :key="ratingItem.id"
+            class="rating-row"
+          >
             <div class="rating-row__label">
               {{ ratingItem.title }}
             </div>
