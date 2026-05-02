@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import type { Genre, Platform } from '@/typings/interfaces'
-
-interface SimpleCardProps {
-  item: Platform | Genre
-}
+import type { SimpleCardProps } from '@/typings/interfaces'
 
 const { item } = defineProps<SimpleCardProps>()
 const { games, games_count, id, image_background, name } = item
