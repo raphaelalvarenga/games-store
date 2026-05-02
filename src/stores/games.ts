@@ -6,7 +6,7 @@ export const useGamesStore = defineStore('games', {
     rawItems: [],
   }),
   getters: {
-    games: (state) => state.rawItems,
+    gamesValue: (state) => state.rawItems,
   },
   actions: {
     addGames(games: Game[]) {
@@ -16,6 +16,8 @@ export const useGamesStore = defineStore('games', {
   },
 })
 
+// c8 ignore start
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useGamesStore, import.meta.hot))
 }
+// c8 ignore end

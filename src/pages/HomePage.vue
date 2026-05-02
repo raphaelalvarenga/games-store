@@ -46,7 +46,7 @@ async function loadMoreItems() {
 <template>
   <div class="game-grid-items">
     <RouterLink
-      v-for="game in games.games"
+      v-for="game in games.gamesValue"
       :key="game.id"
       class="game-grid-item"
       :to="`/game-details/${game.id}`"
