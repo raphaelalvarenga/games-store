@@ -8,7 +8,6 @@ export const useBaseStore = defineStore('base', {
 
   getters: {
     isLoadingValue: (state) => {
-      console.log(state.isLoading)
       return state.isLoading
     },
     themeValue: (state) => state.theme,
