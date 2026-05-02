@@ -10,6 +10,11 @@ export default mergeConfig(
       exclude: [...configDefaults.exclude, 'e2e/**'],
       root: fileURLToPath(new URL('./', import.meta.url)),
       setupFiles: ['./vitest.setup'],
+      coverage: {
+        provider: 'v8',
+        include: ['src/**/*'],
+        exclude: ['src/mocks'],
+      },
     },
   }),
 )
