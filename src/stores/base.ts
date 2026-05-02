@@ -23,6 +23,8 @@ export const useBaseStore = defineStore('base', {
   },
 })
 
+// c8 ignore start
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useBaseStore, import.meta.hot))
 }
+// c8 ignore end
