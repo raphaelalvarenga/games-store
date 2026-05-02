@@ -38,6 +38,13 @@ describe('SimpleCard', () => {
     }
     const simpleCard = mount(SimpleCard, {
       props: componentProps,
+      global: {
+        stubs: {
+          RouterLink: {
+            template: '<a><slot /></a>',
+          },
+        },
+      },
     })
     expect(simpleCard.text()).toContain('PC')
   })
